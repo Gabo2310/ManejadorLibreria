@@ -4,11 +4,11 @@ using ManejadorLibreria.Models;
 
 namespace ManejadorLibreria.Controllers;
 
-public class LibrosController : Controller
+public class HomeController : Controller
 {
-    private readonly ILogger<LibrosController> _logger;
+    private readonly ILogger<HomeController> _logger;
 
-    public LibrosController(ILogger<LibrosController> logger)
+    public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }
