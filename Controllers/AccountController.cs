@@ -61,6 +61,12 @@ namespace ManejadorLibreria.Controllers
                 return View();
             }
 
+            if (password.Length < 6)
+            {
+                ViewBag.Error = "La contraseña debe tener al menos 6 caracteres";
+                return View();
+            }
+
             if (password != confirmPassword)
             {
                 ViewBag.Error = "Las contraseñas no coinciden";
