@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ManejadorLibreria.Data;
+using ManejadorLibreria.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddControllersWithViews();
 // Configurar Entity Framework Core con SQL Server
 builder.Services.AddDbContext<LibreriaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<AuthService>();
 
 var app = builder.Build();
 
