@@ -1,8 +1,34 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center mt-5">
+    <h1 class="display-4">📚 Manejador de Librería</h1>
+    <p class="lead">Sistema de gestión de biblioteca con ASP.NET Core MVC</p>
+
+    @if (Context.Session.GetString("UsuarioId") != null)
+    {
+        @* USUARIO LOGUEADO *@
+        <div class="mt-5">
+            <h3>¡Bienvenido, @Context.Session.GetString("UsuarioNombre")!</h3>
+            <p class="text-muted">Ya puedes gestionar tu biblioteca</p>
+            <a asp-controller="Libros" asp-action="Index" class="btn btn-primary btn-lg mt-3">
+                📖 Ir a la Biblioteca
+            </a>
+        </div>
+    }
+    else
+    {
+        @* NO HAY SESIÓN *@
+        <div class="mt-5">
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg">
+                    🔐 Iniciar Sesión
+                </a>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-success btn-lg">
+                    ✍️ Registrarse
+                </a>
+            </div>
+        </div>
+    }
 </div>
