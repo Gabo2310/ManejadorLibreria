@@ -13,13 +13,15 @@ namespace ManejadorLibreria.Controllers
             _authService = authService;
         }
 
-        // GET: Account/Login
         public IActionResult Login()
         {
+            if (HttpContext.Session.GetString("UsuarioId") != null)
+            {
+                return RedirectToAction("Index", "Libros");
+            }
             return View();
         }
 
-        // POST: Account/Login
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
@@ -37,18 +39,19 @@ namespace ManejadorLibreria.Controllers
                 return View();
             }
 
-            // Login exitoso
+            HttpContext.Session.SetString("UsuarioId", usuario.Id.ToString());
+            HttpContext.Session.SetString("UsuarioNombre", usuario.NombreUsuario);
+            HttpContext.Session.SetString("UsuarioEmail", usuario.Email);
+
             TempData["Success"] = $"¡Bienvenido {usuario.NombreUsuario}!";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Libros");
         }
 
-        // GET: Account/Register
         public IActionResult Register()
         {
             return View();
         }
 
-        // POST: Account/Register
         [HttpPost]
         public async Task<IActionResult> Register(string nombreUsuario, string email, string password, string confirmPassword)
         {
@@ -74,6 +77,13 @@ namespace ManejadorLibreria.Controllers
 
             TempData["Success"] = "¡Registro exitoso! Ahora puedes iniciar sesión";
             return RedirectToAction("Login");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            TempData["Success"] = "Has cerrado sesión correctamente";
+            return RedirectToAction("Index", "Home");
         }
     }
 }

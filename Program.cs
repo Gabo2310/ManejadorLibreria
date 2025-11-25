@@ -4,18 +4,23 @@ using ManejadorLibreria.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Agregar servicios MVC
 builder.Services.AddControllersWithViews();
 
-// Configurar Entity Framework Core con SQL Server
 builder.Services.AddDbContext<LibreriaContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<AuthService>();
 
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
+});
+
 var app = builder.Build();
 
-// Configurar pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -25,6 +30,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseSession();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
