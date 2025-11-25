@@ -10,5 +10,6 @@ namespace ManejadorLibreria.Data
         }
 
         public DbSet<Libro> Libros { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }
